@@ -1,6 +1,6 @@
 ---
 title: "GF-0604 Procesamiento de datos geográficos<br>Laboratorio 02: R - Graficación básica"
-author: "Manuel Vargas"
+author: "Carolina Guzmán"
 date: "2020-04-20"
 output:
   html_document:
@@ -31,45 +31,43 @@ La fecha límite de entrega de este laboratorio es el **30 de abril de 2020**. D
 Se recomienda leer el material preparado por el profesor y consultar los recursos listados en [Lección 04: El lenguaje de programación R - Introducción](https://geoprocesamiento-2020i.github.io/leccion-04-r-introduccion/).
 
 ## Bifuración y clonación de este documento
-Ejecute los siguientes pasos para bifurcar a su cuenta en GitHub el repositorio que contiene este documento y posteriormente clonarlo a su computadora para editarlo con RStudio:
+Ejecute los pasos para bifurcar a su cuenta en GitHub el repositorio que contiene este documento y posteriormente clonarlo a su computadora para editarlo con RStudio.
 
-1. Bifurque (_fork_) el repositorio [https://github.com/geoprocesamiento-2020i/laboratorio-02-r-graficacion](https://github.com/geoprocesamiento-2020i/laboratorio-02-r-graficacion) a su cuenta personal en GitHub.
-2. En el apartado _Settings_ del repositorio bifurcado a su cuenta, busque la sección _GitHub Pages_ y habilítela al seleccionar _master branch_ como fuente. Tome nota de la dirección web resultante (ej. https://usuario.github.io/laboratorio-02-r-graficacion-basica/).
-3. En RStudio, clone el repositorio de su cuenta personal con la opción de menú _File - New Project - Version Control - Git_. En _Repository URL_ escriba la dirección de su repositorio (ej. https://github.com/usuario/laboratorio-02-r-graficacion-basica.git). Puede obtener esta dirección con el botón _Clone or download_, en la página principal del mismo repositorio.
-4. Abra y modifique el documento en R Studio.
-5. Cada vez que desee actualizar su documento en GitHub y GitHub Pages:
-- Presione el botón _Knit_ en RStudio para generar el documento correspondiente en la sintaxis HTML.
-- Suba a su repositorio en GitHub, los archivos _index.Rmd_ e _index.html_.
 
 ## Desarrollo
 Realice los siguientes ejercicios de graficación en R (el valor porcentual de cada uno se muestra entre paréntesis).
 
-1. (10%) Mediante la función ```read.csv()```, cargue en un data frame el archivo CSV con datos de casos de Covid-19 ubicado en [https://raw.githubusercontent.com/geoprocesamiento-2020i/datos/master/covid19/casos/ca/ca-covid19.csv](https://raw.githubusercontent.com/geoprocesamiento-2020i/datos/master/covid19/casos/ca/ca-covid19.csv). Luego, despliéguelo mediante la función ```print()```.
+1. (10%) Mediante la función ```read.csv()```, cargue en un data frame el archivo CSV con datos de casos de Covid-19
 
 ```{r}
-# Importación de datos de casos recuperados, fallecidos, activos y confirmados de Covid-19 en los países de Centroamérica
+
 ca_covid19 <- read.csv(file='https://raw.githubusercontent.com/geoprocesamiento-2020i/datos/master/covid19/casos/ca/ca-covid19.csv')
 
-# Despliegue de los datos
+
 print(ca_covid19)
 ```
 
 2. (10%) Genere un resumen de los datos con la función  ```summary() ```.
 
 ```{r}
-
+summary (ca_covid19)
 ```
 
 3. (10%) Con la función ```barplot()```, genere un gráfico de barras de los casos confirmados.
 
 ```{r}
-
+barplot(height=ca_covid19$confirmados)
 ```
 
 4. (10%) Con la función  ```order()```, ordene el data frame por cantidad de casos confirmados y genere de nuevo el gráfico.
 
 ```{r}
-
+confirmados.ordenado<-order(ca_covid19$confirmados,decreasing = TRUE)
+ca_covid19.confirmados<-ca_covid19[confirmados.ordenado,]
+barplot(
+  height=ca_covid19.confirmados$confirmados, 
+  names.arg=ca_covid19.confirmados$pais, 
+)
 ```
 
 5. (10%) Incluya en el gráfico los siguientes componentes:
@@ -78,17 +76,58 @@ print(ca_covid19)
 - Titulo del gráfico.
 
 ```{r}
-
+barplot(
+  height=ca_covid19.confirmados$confirmados, 
+  names.arg=ca_covid19.confirmados$pais, 
+  xlab="País", 
+  ylab="Número de habitantes", 
+  main="Cantidad de casos confirmados de Covid-19"
+)
 ```
 
 6. Genere gráficos similares al del paso anterior para:
 - (25%) Casos activos.
 - (25%) Casos fallecidos.
 
+# Casos activos:
+
 ```{r}
+barplot(height=ca_covid19$activos)
+activos.ordenado<-order(ca_covid19$activos,decreasing = TRUE)
+activos.ordenado<-order(ca_covid19$activos,decreasing = TRUE)
+ca_covid19.activos<-ca_covid19[confirmados.ordenado,]
+barplot(
+  height=ca_covid19.activos$activos, 
+  names.arg=ca_covid19.activos$pais,
+)
+barplot(
+  height=ca_covid19.activos$activos, 
+  names.arg=ca_covid19.activos$pais, 
+  xlab="País", 
+  ylab="Número de habitantes", 
+  main="Cantidad de casos activos de Covid-19"
+)
 
 ```
 
+
+# Casos fallecidos:
+
 ```{r}
+barplot(height=ca_covid19$fallecidos)
+fallecidos.ordenado<-order(ca_covid19$fallecidos,decreasing = TRUE)
+fallecidos.ordenado<-order(ca_covid19$fallecidos,decreasing = TRUE)
+ca_covid19.fallecidos<-ca_covid19[fallecidos.ordenado,]
+barplot(
+  height=ca_covid19.fallecidos$fallecidos, 
+  names.arg=ca_covid19.fallecidos$pais,
+)
+barplot(
+  height=ca_covid19.fallecidos$fallecidos, 
+  names.arg=ca_covid19.fallecidos$pais, 
+  xlab="País", 
+  ylab="Número de habitantes", 
+  main="Cantidad de casos fallecidos de Covid-19"
+)
 
 ```
